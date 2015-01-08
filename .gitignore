@@ -3,4 +3,5 @@
 *.a
 *.bin
 build/
+lib/
 

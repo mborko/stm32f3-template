@@ -31,6 +31,7 @@ INCLUDES += -I$(STM32_PATH)/Libraries/STM32F30x_StdPeriph_Driver/inc
 INCLUDES += -I$(STM32_PATH)/Project/Demonstration
 INCLUDES += -I$(CMSIS_PATH)/Device/ST/STM32F30x/Include
 INCLUDES += -I$(CMSIS_PATH)/Include
+INCLUDES += -include$(STM32_PATH)/Project/Demonstration/stm32f30x_conf.h
 
 # LIBRARIES
 SPL_LIBDIR	= $(STM32_PATH)/Libraries/STM32F30x_StdPeriph_Driver/src

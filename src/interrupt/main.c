@@ -68,9 +68,7 @@ int main(void)
   EXTI0_Config();
   
   /* Infinite loop */
-  while (1)
-  {
-  }
+  while (1);
 }
 
 /**
@@ -88,12 +86,10 @@ void EXTI0_Config(void)
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
   
   /* Configure PA0 pin as input floating */
-  /*
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
-  */
 
   /* Enable SYSCFG clock */
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
