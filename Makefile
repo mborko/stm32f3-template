@@ -3,13 +3,17 @@
 # Part of the stm32f3-discovery project
 #
 #######################################
+
 # TARGET: name of the output file
 TARGET = main
+
 # MCU: part number to build for
 MCU = STM32F3XX
+
 # OUTDIR: directory to use for output
 OUTDIR = build
 MAINFILE = $(OUTDIR)/$(TARGET).bin
+
 # STM32_PATH: path to STM32 Firmware folder
 STM32_PATH = $(HOME)/opt/STM32F3-Discovery_FW_V1.1.0
 CMSIS_PATH = $(STM32_PATH)/Libraries/CMSIS
@@ -21,6 +25,7 @@ SOURCEDIR = $(PROJ)
 SOURCES = $(wildcard $(SOURCEDIR)/*.c)
 
 SOURCES += default/stm32f3_discovery.c
+SOURCES += default/system_stm32f30x.c
 
 ASM_SOURCES += $(CMSIS_PATH)/Device/ST/STM32F30x/Source/Templates/gcc_ride7/startup_stm32f30x.s
 
@@ -28,6 +33,7 @@ ASM_SOURCES += $(CMSIS_PATH)/Device/ST/STM32F30x/Source/Templates/gcc_ride7/star
 INCLUDES = -Iinclude
 INCLUDES += -I$(STM32_PATH)/Utilities/STM32F3_Discovery
 INCLUDES += -I$(STM32_PATH)/Libraries/STM32F30x_StdPeriph_Driver/inc
+INCLUDES += -I$(STM32_PATH)/Libraries/STM32_USB-FS-Device_Driver/inc
 INCLUDES += -I$(STM32_PATH)/Project/Demonstration
 INCLUDES += -I$(CMSIS_PATH)/Device/ST/STM32F30x/Include
 INCLUDES += -I$(CMSIS_PATH)/Include
@@ -37,6 +43,9 @@ INCLUDES += -include$(STM32_PATH)/Project/Demonstration/stm32f30x_conf.h
 SPL_LIBDIR	= $(STM32_PATH)/Libraries/STM32F30x_StdPeriph_Driver/src
 LIB_SOURCES	+= $(shell find $(SPL_LIBDIR) -name '*.c')
 LIB_ASM_SRC	+= $(shell find $(SPL_LIBDIR) -name '*.S')
+USB_LIBDIR	= $(STM32_PATH)/Libraries/STM32_USB-FS-Device_Driver/src
+USB_LIBDIR	+= $(STM32_PATH)/Utilities/STM32F3_Discovery
+LIB_SOURCES	+= $(shell find $(USB_LIBDIR) -name '*.c')
 LIB_OUTDIR	= lib/spl_build
 STM32_LIB	= lib/libstm32_f3.a
 
@@ -106,7 +115,7 @@ $(LIB_OBJECTS): $(LIB_SOURCES) | $(LIB_OUTDIR)
 
 $(OUTDIR)/$(TARGET): $(OBJECTS) $(ASM_OBJECTS) $(STM32_LIB)
 	@echo -e "Linking\t\t"$(CYAN)$^$(NORMAL)
-	@$(LD) $(LDFLAGS) -o $@ $^ $(STM32_LIB)
+	@$(LD) $(LDFLAGS) -o $@ $^
 
 $(MAINFILE): $(OUTDIR)/$(TARGET)
 	@$(OBJCOPY) -O binary $< $@
