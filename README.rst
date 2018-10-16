@@ -16,12 +16,12 @@ Flash-Tool
 
 The newest Flash-Tool for the STM-Boards can be found at `STLINK`_. Clone it and make a debian package, which then can be installed via dpkg:
 
-        git clone https://github.com/texane/stlink
-        cd stlink
-        make clean
-        make package
-        sudo dpkg -i build/Release/stlink-1.4.0-12-g95b6e03-amd64.deb
-        sudo ldconfig # refresh library list for st-link
+        git clone https://github.com/texane/stlink  
+        cd stlink  
+        make clean  
+        make package  
+        sudo dpkg -i build/Release/stlink-1.4.0-12-g95b6e03-amd64.deb  
+        sudo ldconfig # refresh library list for st-link  
 
 
 Additional Resources
