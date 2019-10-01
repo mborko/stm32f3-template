@@ -9,66 +9,74 @@ TARGET = main
 
 # MCU: part number to build for
 MCU = STM32F3XX
+STM_SERIE=STM32F3XX
+STM_MODEL=STM32F303xC
+BSP_MODEL=STM32F3-Discovery
 
 # OUTDIR: directory to use for output
 OUTDIR = build
 MAINFILE = $(OUTDIR)/$(TARGET).bin
 
 # STM32_PATH: path to STM32 Firmware folder
-STM32_PATH = $(HOME)/opt/STM32F3-Discovery_FW_V1.1.0
-CMSIS_PATH = $(STM32_PATH)/Libraries/CMSIS
+STM32_PATH = $(HOME)/opt/STM32Cube_FW_F3_V1.10.0
+CMSIS_PATH = $(STM32_PATH)/Drivers/CMSIS
 
-PROJ := src/blink
+PROJ := src/template
 
 # SOURCES: list of input source sources
-SOURCEDIR = $(PROJ)
-SOURCES = $(wildcard $(SOURCEDIR)/*.c)
+SOURCEDIR = $(PROJ)/Src
+SOURCES	+= $(shell find $(SOURCEDIR) -name '*.c')
 
 SOURCES += default/stm32f3_discovery.c
-SOURCES += default/system_stm32f30x.c
 
-ASM_SOURCES += $(CMSIS_PATH)/Device/ST/STM32F30x/Source/Templates/gcc_ride7/startup_stm32f30x.s
+ASM_SOURCES += $(CMSIS_PATH)/Device/ST/STM32F3xx/Source/Templates/gcc/startup_stm32f303xc.s
 
 # INCLUDES: list of includes, by default, use Includes directory
 INCLUDES = -Iinclude
-INCLUDES += -I$(STM32_PATH)/Utilities/STM32F3_Discovery
-INCLUDES += -I$(STM32_PATH)/Libraries/STM32F30x_StdPeriph_Driver/inc
-INCLUDES += -I$(STM32_PATH)/Libraries/STM32_USB-FS-Device_Driver/inc
-INCLUDES += -I$(STM32_PATH)/Project/Demonstration
-INCLUDES += -I$(CMSIS_PATH)/Device/ST/STM32F30x/Include
+INCLUDES += -I$(PROJ)/Inc
+INCLUDES += -I$(STM32_PATH)/Drivers/STM32F3xx_HAL_Driver/Inc
+INCLUDES += -I$(STM32_PATH)/Drivers/BSP/$(BSP_MODEL)
+INCLUDES += -I$(STM32_PATH)/Projects/STM32F3-Discovery/Demonstrations/Inc
+INCLUDES += -I$(STM32_PATH)/Projects/STM32F3-Discovery/Templates/Inc
+INCLUDES += -I$(CMSIS_PATH)/Device/ST/STM32F3xx/Include
 INCLUDES += -I$(CMSIS_PATH)/Include
-INCLUDES += -include$(STM32_PATH)/Project/Demonstration/stm32f30x_conf.h
+##INCLUDES += -include$(STM32_PATH)/Project/Demonstration/stm32f30x_conf.h
+INCLUDES += -include$(STM32_PATH)/Projects/STM32F3-Discovery/Templates/Inc/stm32f3xx_hal_conf.h
+INCLUDES += -include$(STM32_PATH)/Drivers/BSP/STM32F3-Discovery/stm32f3_discovery.h
+INCLUDES += -include$(CMSIS_PATH)/Device/ST/STM32F3xx/Include/stm32f3xx.h
+INCLUDES += -I../
 
 # LIBRARIES
-SPL_LIBDIR	= $(STM32_PATH)/Libraries/STM32F30x_StdPeriph_Driver/src
-LIB_SOURCES	+= $(shell find $(SPL_LIBDIR) -name '*.c')
-LIB_ASM_SRC	+= $(shell find $(SPL_LIBDIR) -name '*.S')
-USB_LIBDIR	= $(STM32_PATH)/Libraries/STM32_USB-FS-Device_Driver/src
-USB_LIBDIR	+= $(STM32_PATH)/Utilities/STM32F3_Discovery
-LIB_SOURCES	+= $(shell find $(USB_LIBDIR) -name '*.c')
-LIB_OUTDIR	= lib/spl_build
+HAL_LIBDIR	= $(STM32_PATH)/Drivers/STM32F3xx_HAL_Driver/Src
+LIB_SOURCES	+= $(shell find $(HAL_LIBDIR) -maxdepth 1 -name '*.c')
+LIB_ASM_SRC	+= $(shell find $(HAL_LIBDIR) -maxdepth 1 -name '*.S')
+BSP_LIBDIR	= $(STM32_PATH)/Drivers/BSP/$(BSP_MODEL)
+LIB_SOURCES	+= $(shell find $(BSP_LIBDIR) -maxdepth 1 -name '*.c')
+LIB_OUTDIR	= lib/hal_build
 STM32_LIB	= lib/libstm32_f3.a
 
 # LD_SCRIPT: linker script
-LD_SCRIPT = default/STM32_FLASH.ld
+LD_SCRIPT = default/STM32F303VCTx_FLASH.ld
 
 # define flags
-CFLAGS = -g -mthumb -mthumb-interwork -mcpu=cortex-m4
-CFLAGS += -mfpu=fpv4-sp-d16 -mfloat-abi=softfp
-CFLAGS += -Os -MD -std=c99 -Wall -Wextra #-pedantic
-# All constants are assumed to be float (32 bit) and not
-# double (32 bit) by default and warn if a float value is implicit promoted
-# to double. Doubles are emulated in software while floats can use the FPU.
-CFLAGS += -fsingle-precision-constant -Wdouble-promotion
-# Enable the linker to discard unused functions
-CFLAGS += -ffunction-sections -fdata-sections
-CFLAGS += -D$(MCU) -DF_CPU=72000000 $(INCLUDES) -c
+##CFLAGS = -g -mthumb -mthumb-interwork -mcpu=cortex-m4
+##CFLAGS += -mfpu=fpv4-sp-d16 -mfloat-abi=softfp
+##CFLAGS += -Os -MD -std=c99 -Wall -Wextra #-pedantic
+##CFLAGS += -fsingle-precision-constant -Wdouble-promotion
+##CFLAGS += -ffunction-sections -fdata-sections
+##CFLAGS += -D$(MCU) -DF_CPU=72000000 $(INCLUDES) -c
+CFLAGS  = -ggdb -O0 -Wall -Wextra -Warray-bounds
+CFLAGS += -mcpu=cortex-m4 -mthumb -mlittle-endian -mthumb-interwork
+CFLAGS += -mfloat-abi=softfp -mfpu=fpv4-sp-d16
+CFLAGS += -DUSE_STDPERIPH_DRIVER -D$(STM_SERIE) -D$(STM_MODEL) $(INCLUDES) -c
 
 ASFLAGS = -x assembler-with-cpp -fmessage-length=0 -mcpu=cortex-m4 -mthumb -gdwarf-2
 
-LDFLAGS = -mcpu=cortex-m4 -mthumb -T $(LD_SCRIPT) -L. -nostdlib
-LDFLAGS += -Wl,--relax -Wl,--gc-sections
-
+##LDFLAGS = -mcpu=cortex-m4 -mthumb -T $(LD_SCRIPT) -L. -nostdlib
+##LDFLAGS += -Wl,--relax -Wl,--gc-sections
+LDFLAGS  = -g -O2 -Wall -T$(LD_SCRIPT)
+LDFLAGS += --specs=nosys.specs
+LDFLAGS += -mlittle-endian -mthumb -mcpu=cortex-m4 -mthumb-interwork
 
 #######################################
 # output configs
@@ -135,7 +143,7 @@ program: $(MAINFILE)
 	$(OPENOCD) -f config/openocd.cfg
 
 flash: $(MAINFILE)
-	$(FLASH) --reset write $(MAINFILE) 0x08000000
+	$(FLASH) --reset write $(MAINFILE) 0x8000000
 
 debug: flash
 	./debug/nemiver.sh $(TARGET)
