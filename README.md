@@ -21,6 +21,10 @@ The newest Flash-Tool for the STM-Boards can be found at [STLINK](https://github
         sudo ldconfig # refresh library list for st-link  
 
 ## Additional Resources
+
+Download the [STM32Cube-F3](https://www.st.com/en/embedded-software/stm32cubef3.html#get-software) Library and extract the Files to the ```~/opt``` Folder.
+Check the **STM32_PATH** Definition in the Makefile and change it aproperly.
+
 [STM32F303VC Product Page](http://www.st.com/web/catalog/mmc/FM141/SC1169/SS1576/LN1531/PF252054)  
 [STM32F303xC Datasheet](http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/DM00058181.pdf)  
 [STM32F3 Family Reference Manual](http://www.st.com/st-web-ui/static/active/en/resource/technical/document/reference_manual/DM00043574.pdf)  
