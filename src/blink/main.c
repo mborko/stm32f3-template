@@ -125,7 +125,7 @@ int main(void)
     STM_EVAL_LEDToggle(LED10);
     
     /* Insert 100 ms delay */
-    Delay(100);
+    Delay(1000);
     
     /* Toggle LED4 */
     STM_EVAL_LEDToggle(LED4);
@@ -137,7 +137,7 @@ int main(void)
     STM_EVAL_LEDToggle(LED8);
     
     /* Insert 150 ms delay */
-    Delay(150);
+    Delay(1500);
   }
 }
 

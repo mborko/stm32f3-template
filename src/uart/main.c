@@ -13,16 +13,16 @@ void GPIO_Configuration(void)
   GPIO_InitTypeDef GPIO_InitStructure;
  
   /* Connect PA9 to USART1_Tx */
-  //GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_7);
-  GPIO_PinAFConfig(GPIOC, GPIO_PinSource4, GPIO_AF_7);
+  GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_7);
+  //GPIO_PinAFConfig(GPIOC, GPIO_PinSource4, GPIO_AF_7);
  
   /* Connect PA10 to USART1_Rx */
-  //GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_7);
-  GPIO_PinAFConfig(GPIOC, GPIO_PinSource5, GPIO_AF_7);
+  GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_7);
+  //GPIO_PinAFConfig(GPIOC, GPIO_PinSource5, GPIO_AF_7);
  
   /* Configure USART Tx as alternate function push-pull */
-  //GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+  //GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
@@ -32,8 +32,8 @@ void GPIO_Configuration(void)
   GPIO_Init(GPIOC, &GPIO_InitStructure);
  
   /* Configure USART Rx as alternate function push-pull */
-  //GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+  //GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
 
   //GPIO_Init(GPIOA, &GPIO_InitStructure);
   GPIO_Init(GPIOC, &GPIO_InitStructure);
@@ -76,7 +76,7 @@ int main(void)
   {
     while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET); // Wait for Empty
   
-    USART_SendData(USART1, 0x49); // Send 'I'
+    USART_SendData(USART1, 0x42);
   }
   
   while(1); // Don't want to exit
