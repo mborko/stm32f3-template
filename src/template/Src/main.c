@@ -50,8 +50,8 @@
 /* Private variables ---------------------------------------------------------*/
 uint8_t DemoIndex = 0;
 BSP_DemoTypedef  BSP_examples[]={
-  {ACCELERO_MEMS_Test, "LSM303DLHC", 0}, 
-  {GYRO_MEMS_Test, "L3GD20", 1},
+  {ACCELERO_MEMS_Test, "LSM303DLHC", 1}, 
+  {GYRO_MEMS_Test, "L3GD20", 0},
 };
 
 __IO uint8_t UserPressButton = 0;
