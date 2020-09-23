@@ -9,7 +9,7 @@ To get all dependencies and be ready to flash the STM32F3 Board, install the fol
 #### Debian based
 ```bash
 apt install cmake libusb-dev libusb-1.0-0-dev build-essential autoconf \
-cutecom git binutils-arm-none-eabi gcc-arm-none-eabi
+cutecom git binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi
 
 apt install rpm pkg-config debhelper # for flash-tool build process
 ```
