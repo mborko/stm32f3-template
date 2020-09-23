@@ -4,11 +4,19 @@ This is a template repository for getting the main peripherals working on a [STM
 
 ## Toolchain
 
-To get all dependencies and be ready to flash the STM32F3 Board, install the following packages:
+To get all dependencies and be ready to flash the STM32F3 Board, install the following packages on your distribution:
 
+#### Debian based
 ```bash
-apt install cmake libusb-dev libusb-1.0-0-dev build-essential autoconf\
+apt install cmake libusb-dev libusb-1.0-0-dev build-essential autoconf \
 cutecom git binutils-arm-none-eabi gcc-arm-none-eabi
+
+apt install rpm pkg-config debhelper # for flash-tool build process
+```
+#### Arch based
+```bash
+pacman -S cmake libusb libusb-compat autoconf git arm-none-eabi-binutils \
+arm-none-eabi-gcc arm-none-eabi-gdb arm-none-eabi-newlib
 ```
 
 ## Flash-Tool
@@ -16,7 +24,6 @@ cutecom git binutils-arm-none-eabi gcc-arm-none-eabi
 The newest Flash-Tool for the STM-Boards can be found at [STLINK](https://github.com/texane/stlink). Clone it and make a debian package, which then can be installed via dpkg:
 
 ```bash
-apt install rpm pkg-config debhelper
 git clone https://github.com/texane/stlink
 cd stlink 
 make clean
