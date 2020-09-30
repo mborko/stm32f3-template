@@ -18,7 +18,7 @@ OUTDIR = build
 MAINFILE = $(OUTDIR)/$(TARGET).bin
 
 # STM32_PATH: path to STM32 Firmware folder
-STM32_PATH = $(HOME)/opt/STM32Cube_FW_F3_V1.10.0
+STM32_PATH = $(HOME)/opt/STM32CubeF3
 CMSIS_PATH = $(STM32_PATH)/Drivers/CMSIS
 
 PROJ := src/template

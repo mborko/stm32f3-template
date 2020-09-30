@@ -34,7 +34,7 @@ sudo ldconfig # refresh library list for st-link
 
 ## Additional Resources
 
-Download the [STM32Cube-F3](https://www.st.com/en/embedded-software/stm32cubef3.html#get-software) Library and extract the Files to the ```~/opt``` Folder.
+Clone the [STM32Cube-F3](https://github.com/STMicroelectronics/STM32CubeF3) Library to the ```~/opt``` Folder or any other destination.
 Check the **STM32_PATH** Definition in the Makefile and change it aproperly.
 
 [STM32F303VC Product Page](http://www.st.com/web/catalog/mmc/FM141/SC1169/SS1576/LN1531/PF252054)  
