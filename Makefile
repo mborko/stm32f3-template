@@ -7,6 +7,13 @@
 # TARGET: name of the output file
 TARGET = main
 
+ifeq ($(DEVICE),master)
+  SERIAL := $(shell echo "--serial 303637304646333233353335343734423433303632333439")
+else ifeq ($(DEVICE),slave)
+  SERIAL := $(shell echo "--serial 303637304646333233353335343734423433303632303133")
+endif
+
+
 # MCU: part number to build for
 MCU = STM32F3XX
 STM_SERIE=STM32F3XX
@@ -143,7 +150,7 @@ program: $(MAINFILE)
 	$(OPENOCD) -f config/openocd.cfg
 
 flash: $(MAINFILE)
-	$(FLASH) --reset write $(MAINFILE) 0x8000000
+	$(FLASH) $(SERIAL) --reset write $(MAINFILE) 0x8000000
 
 debug: flash
 	./debug/nemiver.sh $(TARGET)
